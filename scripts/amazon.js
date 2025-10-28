@@ -1,6 +1,7 @@
-let productsHTML = "";
+let productsHTML = ""; // Initialize an empty string to hold the HTML for products
 
 products.forEach((product) => {
+  // Loop through each product in the products array
   productsHTML += `
             <div class="product-container">
           <div class="product-image-container">
@@ -56,29 +57,43 @@ products.forEach((product) => {
   `;
 });
 
-document.querySelector(".js-products-grid").innerHTML = productsHTML;
+document.querySelector(".js-products-grid").innerHTML = productsHTML; // Insert the products HTML into the products grid container
 
 document.querySelectorAll(".js-add-to-cart").forEach((button) => {
+  // Select all "Add to Cart" buttons and loop through each
   button.addEventListener("click", () => {
-    const productId = button.dataset.productId;
+    // Add a click event listener to each button
+    const productId = button.dataset.productId; // Get the product ID from the button's data attribute
 
-    let matchingItem;
+    let matchingItem; // Variable to track if the product is already in the cart
 
     cart.forEach((item) => {
+      // Loop through each item in the cart
       if (productId === item.productId) {
+        // Check if the product ID matches the current cart item's product ID
       }
-      matchingItem = item;
+      matchingItem = item; // If a match is found, assign the cart item to matchingItem
     });
 
     if (matchingItem) {
-      matchingItem.quantity += 1;
+      // If the product is already in the cart
+      matchingItem.quantity += 1; // Increment the quantity of the existing cart item
     } else {
+      // If the product is not in the cart
       cart.push({
-        productId: productId,
-        quantity: 1,
+        // Add a new item to the cart
+        productId: productId, // Set the product ID
+        quantity: 1, // Set the initial quantity to 1
       });
     }
 
-    console.log(cart);
+    let cartQuantity = 0; // Initialize cart quantity
+
+    cart.forEach((item) => {
+      // Loop through each item in the cart
+      cartQuantity += item.quantity;
+    }); // Calculate total quantity in cart
+
+    document.querySelector(".js-cart-quantity").innerHTML = cartQuantity; // Update cart quantity display
   });
 });
