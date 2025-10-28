@@ -1,3 +1,6 @@
+import { products } from "../data/products.js"; // Import the products array from the products data file
+import { cart } from "../data/cart.js"; // Import the cart array from the cart data file
+
 let productsHTML = ""; // Initialize an empty string to hold the HTML for products
 
 products.forEach((product) => {
