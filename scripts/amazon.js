@@ -1,5 +1,5 @@
 import { products } from "../data/products.js"; // Import the products array from the products data file
-import { cart } from "../data/cart.js"; // Import the cart array from the cart data file
+import { cart, addToCart } from "../data/cart.js"; // Import the cart array from the cart data file
 
 let productsHTML = ""; // Initialize an empty string to hold the HTML for products
 
@@ -62,41 +62,25 @@ products.forEach((product) => {
 
 document.querySelector(".js-products-grid").innerHTML = productsHTML; // Insert the products HTML into the products grid container
 
+function updateCartQuantity() {
+  let cartQuantity = 0; // Initialize cart quantity
+
+  cart.forEach((cartItem) => {
+    // Loop through each item in the cart
+    cartQuantity += cartItem.quantity;
+  }); // Calculate total quantity in cart
+
+  document.querySelector(".js-cart-quantity").innerHTML = cartQuantity; // Update cart quantity display
+}
+
 document.querySelectorAll(".js-add-to-cart").forEach((button) => {
   // Select all "Add to Cart" buttons and loop through each
   button.addEventListener("click", () => {
     // Add a click event listener to each button
     const productId = button.dataset.productId; // Get the product ID from the button's data attribute
 
-    let matchingItem; // Variable to track if the product is already in the cart
+    addToCart(productId);
 
-    cart.forEach((item) => {
-      // Loop through each item in the cart
-      if (productId === item.productId) {
-        // Check if the product ID matches the current cart item's product ID
-      }
-      matchingItem = item; // If a match is found, assign the cart item to matchingItem
-    });
-
-    if (matchingItem) {
-      // If the product is already in the cart
-      matchingItem.quantity += 1; // Increment the quantity of the existing cart item
-    } else {
-      // If the product is not in the cart
-      cart.push({
-        // Add a new item to the cart
-        productId: productId, // Set the product ID
-        quantity: 1, // Set the initial quantity to 1
-      });
-    }
-
-    let cartQuantity = 0; // Initialize cart quantity
-
-    cart.forEach((item) => {
-      // Loop through each item in the cart
-      cartQuantity += item.quantity;
-    }); // Calculate total quantity in cart
-
-    document.querySelector(".js-cart-quantity").innerHTML = cartQuantity; // Update cart quantity display
+    updateCartQuantity();
   });
 });
