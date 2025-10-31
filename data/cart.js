@@ -58,3 +58,18 @@ export function removeFromCart(productId) {
 }
 
 //export { cart, addToCart, removeFromCart };
+
+export function updateDeliveryOption(productId, deliveryOptionId) {
+  let matchingItem; // Variable to track if the product is already in the cart
+
+  cart.forEach((cartItem) => {
+    // Loop through each item in the cart
+    if (productId === cartItem.productId) {
+      // Check if the product ID matches the current cart item's product ID
+      matchingItem = cartItem; // If a match is found, assign the cart item to matchingItem
+    }
+  });
+
+  matchingItem.deliveryOptionId = deliveryOptionId;
+  saveToStorage();
+}
