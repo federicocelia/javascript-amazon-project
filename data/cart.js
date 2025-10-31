@@ -1,23 +1,31 @@
-let cart = [
-  {
-    productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
-    quantity: 2,
-  },
-  {
-    productId: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
-    quantity: 1,
-  },
-];
+export let cart = JSON.parse(localStorage.getItem("cart"));
 
-function addToCart(productId) {
+if (!cart) {
+  cart = [
+    {
+      productId: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
+      quantity: 2,
+    },
+    {
+      productId: "15b6fc6f-327a-4ec4-896f-486349e85a3d",
+      quantity: 1,
+    },
+  ];
+}
+
+function saveToStorage() {
+  localStorage.setItem("cart", JSON.stringify(cart));
+}
+
+export function addToCart(productId) {
   let matchingItem; // Variable to track if the product is already in the cart
 
   cart.forEach((cartItem) => {
     // Loop through each item in the cart
     if (productId === cartItem.productId) {
       // Check if the product ID matches the current cart item's product ID
+      matchingItem = cartItem; // If a match is found, assign the cart item to matchingItem
     }
-    matchingItem = cartItem; // If a match is found, assign the cart item to matchingItem
   });
 
   if (matchingItem) {
@@ -31,9 +39,10 @@ function addToCart(productId) {
       quantity: 1, // Set the initial quantity to 1
     });
   }
+  saveToStorage();
 }
 
-function removeFromCart(productId) {
+export function removeFromCart(productId) {
   const newCart = [];
   cart.forEach((cartItem) => {
     if (cartItem.productId !== productId) {
@@ -42,6 +51,7 @@ function removeFromCart(productId) {
   });
 
   cart = newCart;
+  saveToStorage();
 }
 
-export { cart, addToCart, removeFromCart };
+//export { cart, addToCart, removeFromCart };
