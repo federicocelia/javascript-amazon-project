@@ -1,5 +1,3 @@
-import { addToCart } from "./cart.js";
-
 function Cart(localStorageKey) {
   const cart = {
     cartItems: undefined,
