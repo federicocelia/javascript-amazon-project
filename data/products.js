@@ -1,4 +1,7 @@
+import { formatCurrency } from "../scripts/utils/money.js";
+
 export function getProduct(productId) {
+  // Function to get a product by its ID
   let matchingProduct;
 
   products.forEach((product) => {
@@ -9,7 +12,33 @@ export function getProduct(productId) {
   return matchingProduct;
 }
 
+class Product {
+  // Product class definition
+  id;
+  image;
+  name;
+  rating;
+  priceCents;
+
+  constructor(productDetails) {
+    this.id = productDetails.id;
+    this.image = productDetails.image;
+    this.name = productDetails.name;
+    this.rating = productDetails.rating;
+    this.priceCents = productDetails.priceCents;
+  }
+
+  getStarsUrl() {
+    return `images/ratings/rating-${this.rating.stars * 10}.png`;
+  }
+
+  getPrice() {
+    return `$${formatCurrency(this.priceCents)}`;
+  }
+}
+
 export const products = [
+  // Array of product objects
   {
     id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
     image: "images/products/athletic-cotton-socks-6-pairs.jpg",
@@ -480,4 +509,7 @@ export const products = [
     priceCents: 2400,
     keywords: ["sweaters", "hoodies", "apparel", "mens"],
   },
-];
+].map((productDetails) => {
+  // Map over the array to create Product instances
+  return new Product(productDetails); // Return a new Product instance for each productDetails object
+});
