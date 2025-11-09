@@ -1,12 +1,15 @@
-import { products } from "../data/products.js"; // Import the products array from the products data file
+import { products, loadProducts } from "../data/products.js"; // Import the products array from the products data file
 import { cart, addToCart } from "../data/cart.js"; // Import the cart array from the cart data file
 import { formatCurrency } from "./utils/money.js"; // Import the formatCurrency utility function from the money file
 
-let productsHTML = ""; // Initialize an empty string to hold the HTML for products
+loadProducts(renderProductsGrid); // Load products data
 
-products.forEach((product) => {
-  // Loop through each product in the products array
-  productsHTML += `
+function renderProductsGrid() {
+  let productsHTML = ""; // Initialize an empty string to hold the HTML for products
+
+  products.forEach((product) => {
+    // Loop through each product in the products array
+    productsHTML += `
             <div class="product-container">
           <div class="product-image-container">
             <img
@@ -59,29 +62,30 @@ products.forEach((product) => {
           data-product-id="${product.id}">Add to Cart</button>
         </div>
   `;
-});
-
-document.querySelector(".js-products-grid").innerHTML = productsHTML; // Insert the products HTML into the products grid container
-
-function updateCartQuantity() {
-  let cartQuantity = 0; // Initialize cart quantity
-
-  cart.forEach((cartItem) => {
-    // Loop through each item in the cart
-    cartQuantity += cartItem.quantity;
-  }); // Calculate total quantity in cart
-
-  document.querySelector(".js-cart-quantity").innerHTML = cartQuantity; // Update cart quantity display
-}
-
-document.querySelectorAll(".js-add-to-cart").forEach((button) => {
-  // Select all "Add to Cart" buttons and loop through each
-  button.addEventListener("click", () => {
-    // Add a click event listener to each button
-    const productId = button.dataset.productId; // Get the product ID from the button's data attribute
-
-    addToCart(productId);
-
-    updateCartQuantity();
   });
-});
+
+  document.querySelector(".js-products-grid").innerHTML = productsHTML; // Insert the products HTML into the products grid container
+
+  function updateCartQuantity() {
+    let cartQuantity = 0; // Initialize cart quantity
+
+    cart.forEach((cartItem) => {
+      // Loop through each item in the cart
+      cartQuantity += cartItem.quantity;
+    }); // Calculate total quantity in cart
+
+    document.querySelector(".js-cart-quantity").innerHTML = cartQuantity; // Update cart quantity display
+  }
+
+  document.querySelectorAll(".js-add-to-cart").forEach((button) => {
+    // Select all "Add to Cart" buttons and loop through each
+    button.addEventListener("click", () => {
+      // Add a click event listener to each button
+      const productId = button.dataset.productId; // Get the product ID from the button's data attribute
+
+      addToCart(productId);
+
+      updateCartQuantity();
+    });
+  });
+}

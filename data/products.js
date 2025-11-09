@@ -92,6 +92,29 @@ const object3 = {
 object3.method();
 */
 
+export let products = [];
+
+export function loadProducts(fun) {
+  const xhr = new XMLHttpRequest();
+  xhr.addEventListener("load", () => {
+    products = JSON.parse(xhr.response).map((productDetails) => {
+      // Map over the array to create Product instances
+
+      if (productDetails.type === "clothing") {
+        return new Clothing(productDetails); // Return a new Clothing instance if type is clothing
+      }
+      return new Product(productDetails); // Return a new Product instance for each productDetails object
+    });
+    console.log("load products");
+
+    fun();
+  });
+
+  xhr.open("GET", "https://supersimplebackend.dev/products");
+  xhr.send();
+}
+
+/*
 export const products = [
   // Array of product objects
   {
@@ -572,3 +595,5 @@ export const products = [
   }
   return new Product(productDetails); // Return a new Product instance for each productDetails object
 });
+
+*/
