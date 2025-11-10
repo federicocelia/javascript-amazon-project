@@ -35,7 +35,9 @@ function renderProductsGrid() {
           <div class="product-price">${product.getPrice()}</div>
 
           <div class="product-quantity-container">
-            <select>
+            <select class="js-quantity-selector" data-product-id="${
+              product.id
+            }">
               <option selected value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -82,9 +84,14 @@ function renderProductsGrid() {
     button.addEventListener("click", () => {
       // Add a click event listener to each button
       const productId = button.dataset.productId; // Get the product ID from the button's data attribute
+      // Find the corresponding quantity selector
+      const quantitySelector = document.querySelector(
+        `.js-quantity-selector[data-product-id="${productId}"]`
+      );
 
-      addToCart(productId);
+      const selectedQuantity = parseInt(quantitySelector.value);
 
+      addToCart(productId, selectedQuantity);
       updateCartQuantity();
     });
   });
