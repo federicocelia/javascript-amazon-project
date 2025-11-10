@@ -2,7 +2,18 @@ import { products, loadProducts } from "../data/products.js"; // Import the prod
 import { cart, addToCart } from "../data/cart.js"; // Import the cart array from the cart data file
 import { formatCurrency } from "./utils/money.js"; // Import the formatCurrency utility function from the money file
 
-loadProducts(renderProductsGrid); // Load products data
+loadProducts(() => {
+  renderProductsGrid();
+  updateCartQuantity(); // ✅ update immediately after products load
+});
+
+function updateCartQuantity() {
+  let cartQuantity = 0;
+  cart.forEach((cartItem) => {
+    cartQuantity += cartItem.quantity;
+  });
+  document.querySelector(".js-cart-quantity").innerHTML = cartQuantity;
+}
 
 function renderProductsGrid() {
   let productsHTML = ""; // Initialize an empty string to hold the HTML for products
